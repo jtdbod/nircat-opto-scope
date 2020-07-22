@@ -17,6 +17,6 @@ Parts, plans, code, and setup for a NIRCAT/opto SWIR imaging scope for acute bra
 
 <a name="sop"></a> 
 ## Standard Operation
-
+Setting `Exposure` longer than the MDA `Interval` will increase the acquisition interval to accomodate the longer exposure time. The true frame interval is given by the difference between frames in the metadata file generated with each OME TIFF stack under the label `"ElapsedTime-ms"`.
 <a name="installation"></a> 
 ## Installation and Setup
