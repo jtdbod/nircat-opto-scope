@@ -9,7 +9,7 @@ camera for obtaining visible images. All states are controlled using an Arduino
 as a universal shutter controller.
 */
 // ##### SET STIMULATION FRAME #####
-STIM_FRAME = 200; // <- Edit here only
+STIM_FRAME = 20; // <- Edit here only
 
 // ##### DO NOT EDIT BELOW #####
 // clear all previous acquisitions
@@ -65,14 +65,19 @@ mmc.setProperty("Arduino-Switch","State",8); //Set arduino state to turn on desp
       gui.addImageToAcquisition(acqName, frame, 0, 0, 0, img);
       // Set ThorCam trigger to LOW while leaving despeckler on
       mmc.setProperty("Arduino-Switch","State",8); //Set arduino state to turn on despeckler (binary 8 = pin 11)
-      // The above mmc.setProperty ("Arduino... >> appears to be a frame rate limiting step
+      // The above mmc.setProperty ("Arduino... >> appears to be a frame rate limiting step because of USB-Serial communication is slow
       frame++;
       // Determine interval timing
       itTook = System.currentTimeMillis() - now;
       int timeDiff = frameInterval - itTook;
       if (timeDiff>0) {
-     gui.sleep(timeDiff);
-     itTook = System.currentTimeMillis() - now;
+     	gui.sleep(timeDiff);
+     	itTook = System.currentTimeMillis() - now;
+      }
+      int timeDiff = exposureMs - itTook;
+      if (timeDiff>0){
+		gui.sleep(timeDiff);
+		itTook = System.currentTimeMillis() - now;
       }
       gui.message("Frame: "+ frame + " | Interval: " + itTook+ " ms");
      
