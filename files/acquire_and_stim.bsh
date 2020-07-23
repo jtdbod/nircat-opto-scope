@@ -40,53 +40,48 @@ bytesPerPixel = (int) mmc.getBytesPerPixel();
 // bitDepth = (int) mmc.getImageBitDepth();
 // bitDepth = int 14;
 
-gui.initializeAcquisition(acqName, width, height, bytesPerPixel, 14);
+//gui.initializeAcquisition(acqName, width, height, bytesPerPixel, 14);
+//mmc.startSequenceAcquisition(nrFrames, frameInterval, true);
 
-mmc.startSequenceAcquisition(nrFrames, frameInterval, true);
 frame = 0;
 exposureMs = mmc.getExposure();
+mmc.setExposure(exposureMs);
 mmc.setProperty("Arduino-Switch","State",8); //Set arduino state to turn on despeckler (binary 8 = pin 11)
 mmc.setProperty("Arduino-Shutter","OnOff", 1); // Open arduino "shutter"
-now = System.currentTimeMillis();
-
-while (mmc.getRemainingImageCount() > 0 || mmc.isSequenceRunning(mmc.getCameraDevice())) {
-   if (mmc.getRemainingImageCount() > 0) {
-if (frame==stimFrame){
-mmc.setProperty("Arduino-Switch","State",40); // Set arduino state to high on pin 11 (despeckler) and pin 13 (to Master 8). binary 8+32 = pins 11 and 13
-gui.sleep(5);
-mmc.setProperty("Arduino-Switch","State",8); //Set arduino state to turn on despeckler (binary 8 = pin 11)
-}
-      now = System.currentTimeMillis();
-// Collect Ninox Image
-      img = mmc.popNextTaggedImage();
-      // Trigger ThorCam
-      mmc.setProperty("Arduino-Switch","State",24); // Set arduino state to high on pin 11 (despeckler) and pin 12 (to Thorcam). binary 8+16 = pins 11 and 12
-      // Add Ninox image to display
-      gui.addImageToAcquisition(acqName, frame, 0, 0, 0, img);
-      // Set ThorCam trigger to LOW while leaving despeckler on
-      mmc.setProperty("Arduino-Switch","State",8); //Set arduino state to turn on despeckler (binary 8 = pin 11)
-      // The above mmc.setProperty ("Arduino... >> appears to be a frame rate limiting step because of USB-Serial communication is slow
-      frame++;
-      // Determine interval timing
-      itTook = System.currentTimeMillis() - now;
-      int timeDiff = frameInterval - itTook;
-      if (timeDiff>0) {
-     	gui.sleep(timeDiff);
-     	itTook = System.currentTimeMillis() - now;
-      }
-      int timeDiff = exposureMs - itTook;
-      if (timeDiff>0){
-		gui.sleep(timeDiff);
-		itTook = System.currentTimeMillis() - now;
-      }
-      gui.message("Frame: "+ frame + " | Interval: " + itTook+ " ms");
-     
-   }
-   else {
-      mmc.sleep(Math.min(0.5 * exposureMs, 20));
-   }
-}
-
+for (int frame=1; frame<nrFrames+1; frame++) {
+		if (frame==stimFrame){
+			mmc.setProperty("Arduino-Switch","State",40); // Set arduino state to high on pin 11 (despeckler) and pin 13 (to Master 8). binary 8+32 = pins 11 and 13
+			mmc.sleep(5);
+			mmc.setProperty("Arduino-Switch","State",8); //Set arduino state to turn on despeckler (binary 8 = pin 11)
+		}
+	   now = System.currentTimeMillis();
+		// Collect Ninox Image
+		gui.snapAndAddImage(acqName,frame-1,0,0,0);
+	   // Trigger ThorCam
+	   mmc.setProperty("Arduino-Switch","State",24); // Set arduino state to high on pin 11 (despeckler) and pin 12 (to Thorcam). binary 8+16 = pins 11 and 12
+	   // Add Ninox image to display
+		// Set ThorCam trigger to LOW while leaving despeckler on
+	   mmc.setProperty("Arduino-Switch","State",8); //Set arduino state to turn on despeckler (binary 8 = pin 11)
+	   // The above mmc.setProperty ("Arduino... >> appears to be a frame rate limiting step because of USB-Serial communication is slow
+	   // Determine interval timing
+	   itTook = System.currentTimeMillis() - now;
+	   int timeDiff = frameInterval - itTook;
+	   if (timeDiff>0) {
+		  	gui.sleep(timeDiff);
+		  	itTook = System.currentTimeMillis() - now;
+		   }
+	   int timeDiff = exposureMs - itTook;
+	   if (timeDiff>0){
+			gui.sleep(timeDiff);
+			itTook = System.currentTimeMillis() - now;
+		   }
+	   gui.message("Frame: "+ frame + " | Interval: " + itTook+ " ms");
+	   mmc.waitForDevice(camera);
+		}
+	//else {
+	   mmc.sleep(Math.min(0.5 * exposureMs, 20));
+	//}
+	//}
 mmc.stopSequenceAcquisition();
 mmc.setProperty("Arduino-Switch","State",0); //Set all arduino pins to 0
 mmc.setProperty("Arduino-Shutter","OnOff", 0); // Close arduino "shutter"
