@@ -33,6 +33,7 @@ Parts, plans, code, and setup for a NIRCAT/opto SWIR imaging scope for acute bra
 5. Turn on the vacuum pump for the aspirator under the optical table. (Warner Instruments | 64-1940	DWV)
 6. Ensure all tubing is connected to the heater, pump, bath, and beaker containing ACSF buffer and then turn on the parastaltic pump for the bath (World Precision Instruments | 64-1940	DWV)
    * Using a plastic transfer pipette, transfer buffer from the main chamber of the bath on the microscope stage to the aspiration chamber to ensure steady flow. Ensure the bath level reaches equilibrium. If not, adjust the height of the aspiration needle.
+   * For leaky tubing connections, apply vacuum grease when inserting smaller tubing into larger tubing to improve seal.
 7. Once chamber bath is level, turn on the in-lin heater and controller (Warner | TC-324C).
    * Using the thermocouple and the T2 monitor channel, check to see if the bath temperature is 32 C. If not, increase the manual voltage to the heater. Note: the control setpoint temperature is for the temperature as measured for solution as it leaves the inline heater and NOT the temperature at the bath. This model cannot control temperature from the thermocouple input. The solution cools dramatically as it travels to the bath, hence the reason we need to increase the heater voltage.
 
