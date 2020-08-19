@@ -9,7 +9,7 @@ camera for obtaining visible images. All states are controlled using an Arduino
 as a universal shutter controller.
 */
 // ##### SET STIMULATION FRAME #####
-STIM_FRAME = 20; // <- Edit here only
+STIM_FRAME = 200; // <- Edit here only
 
 // ##### DO NOT EDIT BELOW #####
 // clear all previous acquisitions
@@ -20,7 +20,7 @@ gui.closeAllAcquisitions();
 gui.clearMessageWindow();
 
 // Parameters
-stimFrame = STIM_FRAME; // Enter stim frame here
+stimFrame = STIM_FRAME;
 acqSettings = gui.getAcquisitionSettings();
 nrFrames = acqSettings.numFrames;
 frameInterval = acqSettings.intervalMs;
@@ -40,7 +40,8 @@ bytesPerPixel = (int) mmc.getBytesPerPixel();
 // bitDepth = (int) mmc.getImageBitDepth();
 // bitDepth = int 14;
 
-//gui.initializeAcquisition(acqName, width, height, bytesPerPixel, 14);
+gui.initializeAcquisition(acqName, width, height, bytesPerPixel, 14);
+mmc.initializeCircularBuffer();
 //mmc.startSequenceAcquisition(nrFrames, frameInterval, true);
 
 frame = 0;
@@ -79,10 +80,10 @@ for (int frame=1; frame<nrFrames+1; frame++) {
 	   mmc.waitForDevice(camera);
 		}
 	//else {
-	   mmc.sleep(Math.min(0.5 * exposureMs, 20));
+	   //mmc.sleep(Math.min(0.5 * exposureMs, 20));
 	//}
 	//}
-mmc.stopSequenceAcquisition();
+// mmc.stopSequenceAcquisition();
 mmc.setProperty("Arduino-Switch","State",0); //Set all arduino pins to 0
 mmc.setProperty("Arduino-Shutter","OnOff", 0); // Close arduino "shutter"
 gui.message("Acquisition Complete");
