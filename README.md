@@ -73,5 +73,6 @@ e ```STIM_FRAME``` parameter to the frame when tissue will be stimulated via ele
    * Set Image Save to 16-bit TIFF without Annotations and select folder path and FileName prefix. Note, you will need to update the FileName in coordination with MM to keep track of your data.
    * Click Start Recording. The acquisition will then begin when the acquire_and_stim script is run in MM.
 <a name="installation"></a> 
+
 ## Installation and Setup
 
