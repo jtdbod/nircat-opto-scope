@@ -54,6 +54,7 @@ Parts, plans, code, and setup for a NIRCAT/opto SWIR imaging scope for acute bra
    * Note: Setting `Exposure` longer than the MDA `Interval` will increase the acquisition interval to accomodate the longer exposure time. The true frame interval is given by the difference between frames in the metadata file (generated with each OME TIFF stack) under the label `"ElapsedTime-ms"`. It is good practice to ensure `Interval`>`Exposure` `+ N*40ms`, where `N` is the number of Arduino state switches per frame (generally 2 to send TTL pulse). It should also be noted the USB-Serial communication is slow and each state switch to Arduino takes about 40 ms. Currently, it is required to switch states twice to trigger ThorCam, which limits frame interval times to approximately 94 ms. You can remove this switching to increase the frame rate for the Ninox at the cost of losing ThorCam triggering.
 3. Click the ```Live``` button for navigating and viewing the tissue sample. 
 
+### Image Acqusition
 #### Timeseries Image Acquisition with Tissue Stimulation
 1. In the MM window menu, navigate to Tools -> Script Panel...
 2. Open ```acquire_and_stim.bsh``` and set th
@@ -75,4 +76,11 @@ e ```STIM_FRAME``` parameter to the frame when tissue will be stimulated via ele
 <a name="installation"></a> 
 
 ## Installation and Setup
+### Microscope Construction
 
+### Hardware Control
+#### Arduino Circuit
+#### Hardware Control
+![hardware_connections](/images/schematic_of_control_hardware.png)
+
+*Figure 1. Schematic depicting the connections for controling image acquisition and electrical or optical stimulation. For optogenetic stimulation, the input connection to the IsoFLEX is instead connected to the 473 nm laser.*
