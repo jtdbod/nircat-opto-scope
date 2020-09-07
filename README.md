@@ -60,7 +60,7 @@ Parts, plans, code, and setup for a NIRCAT/opto SWIR imaging scope for acute bra
    * If the relative centers of the objectives changes, create a new ROI using either the Square or Oval selection tool from the ImageJ menu (hold shift for circle).
    * From the menu, navigate to Image->Overlay->To ROI Manager... which will create a new ROI.
    * To save this new ROI for future overlay use, in ROI Mangaer, click More->Save and save it as ```ELECTRODE_LOC_OVERLAY```.
-   **Please please please do not put tape on the LCD displays. If you must use tape, please bring your own monitors to use. Or get a thick transparent sheet to place over the screens.**
+   * **Please please please do not put tape on the LCD displays. If you must use tape, please bring your own monitors to use. Or get a thick transparent sheet to place over the screens.**
 ### Image Acqusition
 #### Timeseries Image Acquisition with Tissue Stimulation
 1. In the MM window menu, navigate to Tools -> Script Panel...
