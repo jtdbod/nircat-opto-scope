@@ -53,7 +53,14 @@ Parts, plans, code, and setup for a NIRCAT/opto SWIR imaging scope for acute bra
    * Note: you must hit Tab or click another part of the window for any settings changes, such as exposure time, to take effect.
    * Note: Setting `Exposure` longer than the MDA `Interval` will increase the acquisition interval to accomodate the longer exposure time. The true frame interval is given by the difference between frames in the metadata file (generated with each OME TIFF stack) under the label `"ElapsedTime-ms"`. It is good practice to ensure `Interval`>`Exposure` `+ N*40ms`, where `N` is the number of Arduino state switches per frame (generally 2 to send TTL pulse). It should also be noted the USB-Serial communication is slow and each state switch to Arduino takes about 40 ms. Currently, it is required to switch states twice to trigger ThorCam, which limits frame interval times to approximately 94 ms. You can remove this switching to increase the frame rate for the Ninox at the cost of losing ThorCam triggering.
 3. Click the ```Live``` button for navigating and viewing the tissue sample. 
-
+4. Often, the 4X and 60X objectives are not concentric, meaning if the electrodes are centered in the FOV at 4X, they will be off-center and outside the field of view when you switch to 60X. To fix this, we have an ROI saved in MM to provide an overlay of where to place the electrodes at 4X so they are centered at 60X.
+   * From the menu, navigate to Analyze->Tools->ROI Manager.
+   * From the right button menu, click More->Open-> Then select ```ELECTRODE_LOC_OVERLAY``` located in ~\Documents\
+   * Clicking ELECTRODE_LIST_OVERLAY from the list in the ROI Manager should create a yellow circular overlay indicating the position you should place electrodes at 4X.
+   * If the relative centers of the objectives changes, create a new ROI using either the Square or Oval selection tool from the ImageJ menu (hold shift for circle).
+   * From the menu, navigate to Image->Overlay->To ROI Manager... which will create a new ROI.
+   * To save this new ROI for future overlay use, in ROI Mangaer, click More->Save and save it as ```ELECTRODE_LOC_OVERLAY```.
+   **Please please please do not put tape on the LCD displays. If you must use tape, please bring your own monitors to use. Or get a thick transparent sheet to place over the screens.**
 ### Image Acqusition
 #### Timeseries Image Acquisition with Tissue Stimulation
 1. In the MM window menu, navigate to Tools -> Script Panel...
